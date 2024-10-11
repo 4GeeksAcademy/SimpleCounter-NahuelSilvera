@@ -1,13 +1,21 @@
-//import react into the bundle
+// src/js/index.js
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// include your styles into the webpack bundle
 import "../styles/index.css";
 
-//import your own components
 import Home from "./component/home.jsx";
 
-//render your react application
-ReactDOM.createRoot(document.getElementById('app')).render(<Home/>);
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
+
+const startTime = Date.now();
+
+const root = ReactDOM.createRoot(document.getElementById("app"));
+
+const render = () => {
+	const seconds = Math.floor((Date.now() - startTime) / 1000);
+	root.render(<Home seconds={seconds} />);
+};
+
+setInterval(render, 1000);
