@@ -12,20 +12,6 @@ const Card = ({ digito }) => (
 );
 
 class SecondsCounter extends React.Component {
-    componentDidUpdate(prevProps) {
-        const { seconds, targetTimes } = this.props;
-
-        if (prevProps.seconds !== seconds) {
-            console.log("Checking alert conditions...", seconds);
-            targetTimes.forEach((time) => {
-                if (seconds === time && time !== null) {
-                    console.log(`Alert! Reached target time: ${time}`);
-                    alert(`¡Alerta! Se alcanzó el tiempo objetivo de ${time} segundos.`);
-                }
-            });
-        }
-    }
-
     render() {
         const { seconds, targetTimes, onToggle, onReset, onTargetChange, onAddTarget, isRunning } = this.props;
 
@@ -42,7 +28,7 @@ class SecondsCounter extends React.Component {
                     <Card digito={Math.floor(seconds / 10 % 10)} />
                     <Card digito={seconds % 10} />
                 </div>
-                
+
                 <div className="d-flex mt-3">
                     <button className={`btn custom-button ${isRunning ? "btn-stop" : "btn-resume"}`} onClick={onToggle}>
                         {isRunning ? "Parar" : "Continuar"}
