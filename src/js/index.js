@@ -1,33 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "../styles/index.css";
 import Home from "./component/home.jsx";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
+let seconds = 0;
+let isRunning = true;
+let interval = null;
+
+const startInterval = () => {
+    interval = setInterval(() => {
+        seconds += 1;
+        renderApp();
+    }, 1000);
+};
+
+const stopInterval = () => {
+    clearInterval(interval);
+};
+
+const handleToggle = () => {
+    isRunning = !isRunning;
+    if (isRunning) {
+        startInterval();
+    } else {
+        stopInterval();
+    }
+    renderApp();
+};
+
+const handleReset = () => {
+    seconds = 0;
+    renderApp();
+};
+
 const App = () => {
-    const [seconds, setSeconds] = useState(0);
-    const [isRunning, setIsRunning] = useState(true);
-
-    useEffect(() => {
-        let interval = null;
-        if (isRunning) {
-            interval = setInterval(() => {
-                setSeconds((prevSeconds) => prevSeconds + 1);
-            }, 1000);
-        } else if (!isRunning && seconds !== 0) {
-            clearInterval(interval);
-        }
-        return () => clearInterval(interval);
-    }, [isRunning, seconds]);
-
-    const handleToggle = () => {
-        setIsRunning(!isRunning);
-    };
-
-    const handleReset = () => {
-        setSeconds(0);
-    };
-
     return (
         <Home
             seconds={seconds}
@@ -38,5 +45,10 @@ const App = () => {
     );
 };
 
-const root = ReactDOM.createRoot(document.getElementById("app"));
-root.render(<App />);
+const renderApp = () => {
+    const root = ReactDOM.createRoot(document.getElementById("app"));
+    root.render(<App />);
+};
+
+// Iniciar el intervalo al cargar la página
+startInterval();
